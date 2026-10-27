@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:17
+    container_name: pg-parentid
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: demo
+    ports:
+      - "5434:5432"
+    volumes:
+      # Runs once, on the first start (when the volume is empty)
+      - ./seed.sql:/docker-entrypoint-initdb.d/01-seed.sql
+      - ./queries.sql:/queries.sql
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
